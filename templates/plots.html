@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4 text-center">Generated Plots</h2>
+
+<div class="container">
+    <div class="row justify-content-center">
+
+        {% set plots = [
+            {"file": "failure_distribution.png", "desc": "This bar plot shows how often each failure type occurs in the dataset, highlighting which failures are most frequent."},
+            {"file": "type_distribution.png", "desc": "This pie chart shows the distribution of machine types (Low, Medium, High), giving an overview of machine category proportions."},
+            {"file": "failure_by_type.png", "desc": "This bar plot compares machine types against failure types, showing how different machines are affected by specific failures."},
+            {"file": "air_temp_distribution.png", "desc": "This histogram shows the distribution of air temperature values (Kelvin), revealing the most common operating ranges."},
+            {"file": "process_temp_distribution.png", "desc": "This histogram shows process temperature values, helping analyze temperature variations during operations."},
+            {"file": "torque_distribution.png", "desc": "This histogram shows torque distribution, where peaks indicate the most common torque levels in machines."},
+            {"file": "rot_speed_distribution.png", "desc": "This histogram shows the frequency of rotational speeds (RPM), highlighting common operating ranges of machines."},
+            {"file": "torque_vs_rot_speed.png", "desc": "This scatter plot shows the relationship between torque and rotational speed, with colors revealing patterns linked to failures."},
+            {"file": "air_vs_process_temp.png", "desc": "This scatter plot compares air and process temperatures, showing whether temperature differences are linked to failures."},
+            {"file": "correlation_heatmap.png", "desc": "This heatmap shows correlations between machine variables (temperature, speed, torque), highlighting strong dependencies useful for prediction."}
+        ] %}
+
+        {% for plot in plots %}
+        <div class="col-md-6 mb-5 text-center">
+            <img src="{{ url_for('static', filename='plots/' ~ plot.file) }}" class="img-fluid rounded shadow w-100">
+            <p class="mt-2 fw-semibold text-dark" style="font-size: 1.1rem;">{{ plot.desc }}</p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    
+</div>
+
+{% endblock %}

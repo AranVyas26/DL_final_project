@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Bulk CSV Prediction</h2>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" class="text-center mb-4">
+        <div class="mb-3">
+            <input type="file" name="file" class="form-control" accept=".csv" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Upload & Predict</button>
+    </form>
+
+    {% if preview %}
+        <h4 class="text-center mb-3">Preview of Predictions (first 10 rows)</h4>
+        <div class="table-responsive">
+            {{ preview|safe }}
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('download_bulk_csv') }}" class="btn btn-success btn-lg">Download Full Predictions CSV</a>
+        </div>
+    {% endif %}
+
+    <p class="mt-3 text-center text-muted">
+        Upload a CSV with columns: Type, Air temperature [K], Process temperature [K], Rotational speed [rpm], Torque [Nm].
+    </p>
+</div>
+{% endblock %}

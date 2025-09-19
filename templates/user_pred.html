@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow p-4">
+            <h2 class="mb-4 text-center">User Prediction</h2>
+            <form method="POST" action="{{ url_for('predict') }}">
+                <!-- Type Dropdown -->
+                <div class="mb-3">
+                    <label for="type" class="form-label">Type</label>
+                    <select class="form-select" name="type" required>
+                        <option value="" disabled selected>Select Type</option>
+                        <option value="0">0 - Type A</option>
+                        <option value="1">1 - Type B</option>
+                        <option value="2">2 - Type C</option>
+                    </select>
+                </div>
+
+                <!-- Air Temp -->
+                <div class="mb-3">
+                    <label class="form-label">Air Temperature</label>
+                    <input type="number" step="any" class="form-control" name="air_temp" required>
+                </div>
+
+                <!-- Process Temp -->
+                <div class="mb-3">
+                    <label class="form-label">Process Temperature</label>
+                    <input type="number" step="any" class="form-control" name="process_temp" required>
+                </div>
+
+                <!-- Rot Speed -->
+                <div class="mb-3">
+                    <label class="form-label">Rotational Speed (RPM)</label>
+                    <input type="number" step="any" class="form-control" name="rot_speed" required>
+                </div>
+
+                <!-- Torque -->
+                <div class="mb-3">
+                    <label class="form-label">Torque (Nm)</label>
+                    <input type="number" step="any" class="form-control" name="torque" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Predict</button>
+            </form>
+
+            {% if prediction %}
+                <div class="alert alert-info mt-4 text-center">
+                    <h5>Prediction Result:</h5>
+                    <strong>{{ prediction }}</strong>
+                </div>
+
+                <!-- Detailed Analysis Button -->
+                <div class="text-center mt-3">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#analysisModal">
+                        View Detailed Analysis
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Detailed Analysis -->
+<div class="modal fade" id="analysisModal" tabindex="-1" aria-labelledby="analysisModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="analysisModalLabel">Detailed Failure Analysis</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% if detailed %}
+            <p><strong>Explanation:</strong> {{ detailed.explanation }}</p>
+
+            <h6>Possible Causes:</h6>
+            <ul>
+                {% for cause in detailed.causes %}
+                    <li>{{ cause }}</li>
+                {% endfor %}
+            </ul>
+
+            <h6>Prevention Measures:</h6>
+            <ul>
+                {% for p in detailed.prevention %}
+                    <li>{{ p }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No detailed analysis available.</p>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">AI Report Generation</h2>
+
+    <!-- Upload Predicted CSV Form -->
+    <form action="{{ url_for('ai_report') }}" method="POST" enctype="multipart/form-data" class="mb-3">
+        <label for="file" class="form-label fw-semibold">Upload Predicted CSV:</label>
+        <input type="file" name="file" id="file" class="form-control" required>
+        <button type="submit" class="btn btn-primary mt-2">Generate Report</button>
+    </form>
+
+    <!-- Error Message -->
+    {% if error %}
+        <div class="alert alert-danger mt-3">{{ error }}</div>
+    {% endif %}
+
+    <!-- Preview Table -->
+    {% if preview %}
+        <h5 class="mt-4">Preview of Uploaded Predicted CSV:</h5>
+        <div class="table-responsive">
+            {{ preview | safe }}
+        </div>
+    {% endif %}
+
+    <!-- Download Report Button -->
+    {% if report_ready %}
+        <div class="text-center mt-4">
+            <a href="{{ url_for('download_report') }}" class="btn btn-success btn-lg">Download AI Report</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
